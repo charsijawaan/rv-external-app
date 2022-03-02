@@ -10,14 +10,17 @@ import { reserveSite } from '../../services/camper'
 import { deleteCard } from '../../services/camper'
 import classNames from 'classnames'
 import toast from 'react-hot-toast'
+import Button from './../../components/UI/Button'
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
-const ReservePage = ({ tenant, siteId }) => {
+const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 	const router = useRouter()
 	const camper = camperStore.useState((s) => s.camper)
+
 	const [camperCards, setCamperCards] = useState([])
 	const [showCheckoutForm, setShowCheckoutForm] = useState(false)
 	const [selectedCreditCard, setSelectedCreditCard] = useState()
+	const [notes, setNotes] = useState('')
 
 	const refetchCards = async () => {
 		const res = await getCardsByCamperId(camper._id)
@@ -33,8 +36,13 @@ const ReservePage = ({ tenant, siteId }) => {
 	const onReserve = async () => {
 		const res = await reserveSite({
 			camperId: camper._id,
+			tenantId: tenant._id,
 			siteId: siteId,
+			startDate: startDate,
+			endDate: endDate,
 			camperCreditCard: selectedCreditCard,
+			notes: notes,
+			createdBy: camper.email,
 		})
 		if (res.status === 200) toast.success(res.data.message)
 		else toast.error(res.data.message)
@@ -122,12 +130,7 @@ const ReservePage = ({ tenant, siteId }) => {
 									{card.creditCardLastFour}
 								</span>
 								<span>
-									<button
-										onClick={() => onDeleteCard(card)}
-										className='px-6 py-2 ml-2 font-bold text-white rounded-md shadow-md bg-airbnb-red'
-									>
-										Delete
-									</button>
+									<Button onClick={() => onDeleteCard(card)}>Delete</Button>
 								</span>
 							</div>
 						))}
@@ -147,14 +150,13 @@ const ReservePage = ({ tenant, siteId }) => {
 							</>
 						) : (
 							<>
-								<button
-									className='px-6 py-2 font-bold text-white rounded-md shadow-md bg-airbnb-red'
+								<Button
 									onClick={() => {
 										setShowCheckoutForm(true)
 									}}
 								>
 									Add New
-								</button>
+								</Button>
 							</>
 						)}
 					</div>
@@ -167,19 +169,16 @@ const ReservePage = ({ tenant, siteId }) => {
 							cols={60}
 							rows={5}
 							className='pl-2 border-2 rounded-md outline-none'
+							value={notes}
+							onChange={(e) => {
+								setNotes(e.target.value)
+							}}
 						></textarea>
 					</div>
 				</div>
 
 				<div className='py-4'>
-					<button
-						className='px-10 py-2 font-bold text-white rounded-md shadow-md bg-airbnb-red'
-						onClick={() => {
-							onReserve()
-						}}
-					>
-						Reserve
-					</button>
+					<Button onClick={onReserve}>Reserve</Button>
 				</div>
 			</div>
 		</>
@@ -187,12 +186,14 @@ const ReservePage = ({ tenant, siteId }) => {
 }
 
 export async function getServerSideProps(context) {
-	const { tenant_id, site_id } = context.query
+	const { tenant_id, site_id, start_date, end_date } = context.query
 	const res = await getTenantById(tenant_id)
 	return {
 		props: {
 			tenant: res.data.tenant,
 			siteId: site_id,
+			startDate: start_date,
+			endDate: end_date,
 		},
 	}
 }

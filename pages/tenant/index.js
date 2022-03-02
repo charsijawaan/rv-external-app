@@ -10,6 +10,7 @@ import { DateRangePicker } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import moment from 'moment'
+import { getAvailableSites } from '../../services/sites'
 
 const TenantPage = ({ tenant }) => {
 	const router = useRouter()
@@ -21,14 +22,24 @@ const TenantPage = ({ tenant }) => {
 		endDate: new Date(moment(new Date()).add(1, 'day')),
 		key: 'selection',
 	})
+	const [availableSites, setAvailableSites] = useState([])
+
+	const refetchSites = async (arrivalDate, departureDate) => {
+		await getAvailableSites(
+			moment(arrivalDate).format('YYYY-MM-DD'),
+			moment(departureDate).format('YYYY-MM-DD'),
+			tenant._id
+		)
+	}
 
 	useEffect(() => {
-		console.log('ASDASDASD')
 		router.push(
 			`/tenant?tenant_id=${tenant._id}&start_date=${moment(selectionRange.startDate).format(
 				'YYYY-MM-DD'
 			)}&end_date=${moment(selectionRange.endDate).format('YYYY-MM-DD')}`
 		)
+
+		refetchSites(selectionRange.startDate, selectionRange.endDate)
 	}, [selectionRange])
 
 	const selectDateRange = (ranges) => {
