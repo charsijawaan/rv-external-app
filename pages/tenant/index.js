@@ -6,7 +6,7 @@ import MapMarker from '../../components/MapMarker'
 import { camperStore } from '../../store/camperStore'
 import { getTenantById } from './../../services/tenant'
 import Button from '../../components/UI/Button'
-import { DateRangePicker } from 'react-date-range'
+import { DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import moment from 'moment'
@@ -25,18 +25,21 @@ const TenantPage = ({ tenant }) => {
 	const [availableSites, setAvailableSites] = useState([])
 
 	const refetchSites = async (arrivalDate, departureDate) => {
-		await getAvailableSites(
+		const res = await getAvailableSites(
 			moment(arrivalDate).format('YYYY-MM-DD'),
 			moment(departureDate).format('YYYY-MM-DD'),
 			tenant._id
 		)
+		setAvailableSites(res.data.availableSites)
 	}
 
 	useEffect(() => {
 		router.push(
 			`/tenant?tenant_id=${tenant._id}&start_date=${moment(selectionRange.startDate).format(
 				'YYYY-MM-DD'
-			)}&end_date=${moment(selectionRange.endDate).format('YYYY-MM-DD')}`
+			)}&end_date=${moment(selectionRange.endDate).format('YYYY-MM-DD')}`,
+			undefined,
+			{ scroll: false }
 		)
 
 		refetchSites(selectionRange.startDate, selectionRange.endDate)
@@ -151,7 +154,7 @@ const TenantPage = ({ tenant }) => {
 									</tr>
 								</thead>
 								<tbody>
-									{tenant.sites.map((site) => (
+									{availableSites?.map((site) => (
 										<tr key={site._id}>
 											<td className='py-3 pr-16'>{site.roomNumber}</td>
 											<td className='py-3 pr-16'>{site.amps} Amps</td>
@@ -170,7 +173,11 @@ const TenantPage = ({ tenant }) => {
 					</div>
 
 					<div className='flex items-center justify-center w-2/5'>
-						<DateRangePicker ranges={[selectionRange]} onChange={selectDateRange} />
+						<DateRange
+							ranges={[selectionRange]}
+							onChange={selectDateRange}
+							rangeColors={['#213053']}
+						/>
 					</div>
 				</div>
 			</div>
