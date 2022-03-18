@@ -27,9 +27,24 @@ export const reserveSite = async (data) => {
 }
 
 export const deleteCard = async (data) => {
-	console.log(data)
 	try {
 		return await axios.post('/camper/credit_card', data)
+	} catch (err) {
+		return err.response
+	}
+}
+
+export const getTrips = async (camperId) => {
+	try {
+		return await axios.get(`/camper/get_trips?camperId=${camperId}`)
+	} catch (err) {
+		return err.response
+	}
+}
+
+export const cancelReservation = async (data) => {
+	try {
+		return await axios.post('/camper/cancel_reservation', data)
 	} catch (err) {
 		return err.response
 	}
