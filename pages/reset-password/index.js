@@ -1,35 +1,31 @@
-import { useRouter } from "next/router";
+import React, { useState } from "react";
+import OtpInput from "react-otp-input";
+import Button from "../../components/UI/Button";
+import Input from "../../components/UI/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { resetPasswordSchema } from "../../schemas";
+import { resetPassword } from "../../services/auth";
 import toast from "react-hot-toast";
-import { loginSchema } from "../../schemas";
-import { loginCamper } from "../../services/auth";
-import { camperStore, mutateCamper } from "../../store/camperStore";
-import Input from "../../components/UI/Input";
-import Button from "../../components/UI/Button";
-import Link from "next/link";
 
-const LoginPage = () => {
-  const router = useRouter();
-  const camper = camperStore.useState((s) => s.camper);
-
-  if (camper) router.push("/");
-
+const ResetPassword = () => {
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(resetPasswordSchema),
   });
+  const [OTP, setOTP] = useState(0);
+  console.log("OTP :", OTP);
 
-  const onLogin = async (data) => {
-    const res = await loginCamper(data);
+  const onResetPassword = async (data) => {
+    data = { ...data, OTP };
+    console.log(data);
+    const res = await resetPassword(data);
     if (res.status === 200) {
       toast.success(res.data.message);
-      mutateCamper(res.data.camper);
-      localStorage.setItem("accessToken", res.data.accessToken);
+      router.push("/login");
     } else if (res.status === 401) {
       toast.error(res.data.message);
     }
   };
-
   return (
     <div className="max-w-md py-6 ml-auto mr-auto">
       <div className="flex justify-center">
@@ -44,9 +40,13 @@ const LoginPage = () => {
           </svg>
         </div>
       </div>
-      <div className="flex justify-center py-2 text-2xl font-bold">Login</div>
-      <form onSubmit={handleSubmit(onLogin)}>
+      <div className="flex justify-center py-2 text-2xl font-bold">
+        Reset Password
+      </div>
+
+      <form onSubmit={handleSubmit(onResetPassword)}>
         {/* Email */}
+
         <div className="py-2">
           <label className="block text-lg font-medium text-gray-700">
             Email
@@ -78,18 +78,52 @@ const LoginPage = () => {
             />
           </div>
         </div>
-        {/* Continue */}
+        {/*Confirm Password */}
+        <div className="py-2">
+          <label className="block text-lg font-medium text-gray-700">
+            Confirm Password
+          </label>
+          <div className="relative mt-1 rounded-md shadow-sm">
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              inputClasses={
+                formState.errors.confirmPassword
+                  ? "border-red-500"
+                  : "border-black"
+              }
+              register={register("confirmPassword")}
+            />
+          </div>
+        </div>
+        <label className="mt-[1rem] block text-lg font-medium text-gray-700">
+          Enter Code
+        </label>
+        <div className="mt-[1rem] mb-[2rem] grid justify-items-center">
+          <OtpInput
+            value={OTP}
+            onChange={setOTP}
+            numInputs={6}
+            separator={<span>-</span>}
+            inputStyle={{
+              width: "2rem",
+              height: "2rem",
+              margin: "0rem 0.5rem ",
+              fontSize: "1rem",
+              borderRadius: 4,
+              border: "1px solid rgba(0,0,0,0.3)",
+            }}
+          />
+        </div>
+
         <div className="py-2">
           <Button type="submit" buttonClasses="w-full">
-            Continue
+            Submit
           </Button>
         </div>
       </form>
-      <div>
-        <Link href="/forgot-password">Forgot Password?</Link>
-      </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ResetPassword;

@@ -3,19 +3,23 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../../components/UI/Input";
 import Button from "../../components/UI/Button";
+import { forgotSchema } from "../../schemas";
+import { generateOTP } from "../../services/auth";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
   const router = useRouter();
 
   const { register, handleSubmit, formState } = useForm({
-    // resolver: yupResolver(loginSchema),
+    resolver: yupResolver(forgotSchema),
   });
 
-  const ForgotPasswordHandler = async (data) => {
+  const onGenerateOTP = async (data) => {
+    console.log(data);
+    const res = await generateOTP(data);
     if (res.status === 200) {
       toast.success(res.data.message);
-      mutateCamper(res.data.camper);
-      localStorage.setItem("accessToken", res.data.accessToken);
+      router.push("/reset-password");
     } else if (res.status === 401) {
       toast.error(res.data.message);
     }
@@ -38,7 +42,7 @@ const ForgotPassword = () => {
       <div className="flex justify-center py-2 text-2xl font-bold">
         Forgot Password
       </div>
-      <form onSubmit={handleSubmit(ForgotPasswordHandler)}>
+      <form onSubmit={handleSubmit(onGenerateOTP)}>
         {/* Email */}
         <div className="py-2">
           <label className="block text-lg font-medium text-gray-700">
