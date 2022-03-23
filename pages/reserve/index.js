@@ -142,7 +142,7 @@ const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 								className={classNames(
 									'flex items-center justify-between max-w-xs py-2 cursor-pointer',
 									card?._id === selectedCreditCard?._id
-										? 'text-blue-600'
+										? 'text-blue-600 border border-red-500 px-0.5'
 										: undefined
 								)}
 								onClick={() => {
