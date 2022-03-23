@@ -12,7 +12,39 @@ import "react-date-range/dist/theme/default.css";
 import moment from "moment";
 import { getAvailableSites } from "../../services/sites";
 import ReactPaginate from "react-paginate";
-
+import {
+  FiWifi,
+  FaRestroom,
+  FaDog,
+  MdOutlineOutdoorGrill,
+} from "react-icons/fa";
+/*MdCable,
+  WiShowers,
+  FaStoreAlt,
+  MdOutlineLocalLaundryService,
+  CgGym,
+  MdPool,
+  FiTrash2,
+  BiHandicap,
+     {Object.keys(amenity)[0] === "Wifi" && <FiWifi />}
+              {Object.keys(amenity)[0] === "Restrooms" && <FaRestroom />}
+              {Object.keys(amenity)[0] === "DogFacilities" && <FaDog />}
+              {Object.keys(amenity)[0] === "CableTV" && <MdCable />}
+              {Object.keys(amenity)[0] === "Showers" && <WiShowers />}
+              {Object.keys(amenity)[0] === "GeneralStore" && <FaStoreAlt />}
+              {Object.keys(amenity)[0] === "Laundry" && (
+                <MdOutlineLocalLaundryService />
+              )}
+              {Object.keys(amenity)[0] === "Gym" && <CgGym />}
+              {Object.keys(amenity)[0] === "Pool" && <MdPool />}
+              {Object.keys(amenity)[0] === "TrashPickup" && <FiTrash2 />}
+              {Object.keys(amenity)[0] === "HandicapFacilities" && (
+                <BiHandicap />
+              )}
+              {Object.keys(amenity)[0] === "BBQFacilities" && (
+                <MdOutlineOutdoorGrill />
+              )}
+*/
 const TenantPage = ({ tenant }) => {
   const router = useRouter();
   const camper = camperStore.useState((s) => s.camper);
@@ -39,7 +71,7 @@ const TenantPage = ({ tenant }) => {
 
   // pagination
   const [pageNumber, setPageNumber] = useState(0);
-  const sitesPerPage = 2;
+  const sitesPerPage = 10;
   const pagesVisited = pageNumber * sitesPerPage;
   const pageCount = Math.ceil(availableSites.length / sitesPerPage);
   const changePage = ({ selected }) => {
@@ -47,7 +79,7 @@ const TenantPage = ({ tenant }) => {
   };
 
   useEffect(() => {
-    router.push(
+    router.replace(
       `/tenant?tenant_id=${tenant._id}&start_date=${moment(
         selectionRange.startDate
       ).format("YYYY-MM-DD")}&end_date=${moment(selectionRange.endDate).format(
@@ -227,9 +259,6 @@ const TenantPage = ({ tenant }) => {
         <div className="grid grid-cols-3">
           {tenant.amenities.map((amenity, key) => (
             <div key={key} className="flex w-1/3">
-              {Object.values(amenity)[0] && (
-                <img src={`${Object.keys(amenity)[0]}.svg`} width="24" />
-              )}
               <span className="ml-2">
                 {Object.values(amenity)[0] && Object.keys(amenity)[0]}
               </span>
@@ -244,9 +273,20 @@ const TenantPage = ({ tenant }) => {
         <div className="grid grid-cols-3">
           {tenant.attractions.map((attraction, key) => (
             <div key={key} className="flex w-1/3">
-              {Object.values(attraction)[0] && (
-                <img src={`${Object.keys(attraction)[0]}.svg`} width="24" />
-              )}
+              {Object.keys(attraction)[0] === "Biking" && <FaDog />}
+              {Object.keys(attraction)[0] === "Restaurants" && <FaDog />}
+              {Object.keys(attraction)[0] === "Fishing" && <FaDog />}
+              {Object.keys(attraction)[0] === "Beach" && <FaDog />}
+              {Object.keys(attraction)[0] === "Shopping" && <FaDog />}
+              {Object.keys(attraction)[0] === "Golfing" && <FaDog />}
+              {Object.keys(attraction)[0] === "Hiking" && <FaDog />}
+              {Object.keys(attraction)[0] === "ProfessionalSports" && <FaDog />}
+              {Object.keys(attraction)[0] === "Museums" && <FaDog />}
+              {Object.keys(attraction)[0] === "Hunting" && <FaDog />}
+              {Object.keys(attraction)[0] === "Watersports" && <FaDog />}
+              {Object.keys(attraction)[0] === "Parks" && <FaDog />}
+              {Object.keys(attraction)[0] === "" && <FaDog />}
+
               <span className="ml-2">
                 {Object.values(attraction)[0] && Object.keys(attraction)[0]}
               </span>

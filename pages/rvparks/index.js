@@ -9,7 +9,7 @@ const RVParks = ({ tenants, location }) => {
   // pagination
 
   const [pageNumber, setPageNumber] = useState(0);
-  const rvParksPerPage = 5;
+  const rvParksPerPage = 10;
   const pagesVisited = pageNumber * rvParksPerPage;
   const pageCount = Math.ceil(tenants.length / rvParksPerPage);
   const changePage = ({ selected }) => {
