@@ -13,38 +13,35 @@ import moment from "moment";
 import { getAvailableSites } from "../../services/sites";
 import ReactPaginate from "react-paginate";
 import {
-  FiWifi,
   FaRestroom,
   FaDog,
-  MdOutlineOutdoorGrill,
-} from "react-icons/fa";
-/*MdCable,
-  WiShowers,
   FaStoreAlt,
+  FaUmbrellaBeach,
+  FaBiking,
+} from "react-icons/fa";
+import {
+  MdCable,
   MdOutlineLocalLaundryService,
-  CgGym,
   MdPool,
-  FiTrash2,
-  BiHandicap,
-     {Object.keys(amenity)[0] === "Wifi" && <FiWifi />}
-              {Object.keys(amenity)[0] === "Restrooms" && <FaRestroom />}
-              {Object.keys(amenity)[0] === "DogFacilities" && <FaDog />}
-              {Object.keys(amenity)[0] === "CableTV" && <MdCable />}
-              {Object.keys(amenity)[0] === "Showers" && <WiShowers />}
-              {Object.keys(amenity)[0] === "GeneralStore" && <FaStoreAlt />}
-              {Object.keys(amenity)[0] === "Laundry" && (
-                <MdOutlineLocalLaundryService />
-              )}
-              {Object.keys(amenity)[0] === "Gym" && <CgGym />}
-              {Object.keys(amenity)[0] === "Pool" && <MdPool />}
-              {Object.keys(amenity)[0] === "TrashPickup" && <FiTrash2 />}
-              {Object.keys(amenity)[0] === "HandicapFacilities" && (
-                <BiHandicap />
-              )}
-              {Object.keys(amenity)[0] === "BBQFacilities" && (
-                <MdOutlineOutdoorGrill />
-              )}
-*/
+  MdOutlineOutdoorGrill,
+  MdGolfCourse,
+  MdOutlineMuseum,
+  MdSportsScore,
+  MdOutlinePark,
+  MdOutlineRestaurantMenu,
+} from "react-icons/md";
+import WiShowers from "react-icons/wi";
+import CgGym from "react-icons/cg";
+import { FiWifi, FiTrash2 } from "react-icons/fi";
+import BiHandicap from "react-icons/bi";
+import {
+  GiBoatFishing,
+  GiHiking,
+  GiHuntingBolas,
+  GiWaterPolo,
+} from "react-icons/gi";
+//import RiRestaurant2Line from "react-icons/ri";
+
 const TenantPage = ({ tenant }) => {
   const router = useRouter();
   const camper = camperStore.useState((s) => s.camper);
@@ -259,6 +256,36 @@ const TenantPage = ({ tenant }) => {
         <div className="grid grid-cols-3">
           {tenant.amenities.map((amenity, key) => (
             <div key={key} className="flex w-1/3">
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Wifi" && <FiWifi />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Restrooms" && <FaRestroom />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "DogFacilities" && <FaDog />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "CableTV" && <MdCable />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Showers" && <WiShowers />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "GeneralStore" && <FaStoreAlt />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Laundry" && (
+                  <MdOutlineLocalLaundryService />
+                )}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Gym" && <CgGym />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "Pool" && <MdPool />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "TrashPickup" && <FiTrash2 />}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "HandicapFacilities" && (
+                  <BiHandicap />
+                )}
+              {Object.values(amenity)[0] &&
+                Object.keys(amenity)[0] === "BBQFacilities" && (
+                  <MdOutlineOutdoorGrill />
+                )}
               <span className="ml-2">
                 {Object.values(amenity)[0] && Object.keys(amenity)[0]}
               </span>
@@ -273,19 +300,36 @@ const TenantPage = ({ tenant }) => {
         <div className="grid grid-cols-3">
           {tenant.attractions.map((attraction, key) => (
             <div key={key} className="flex w-1/3">
-              {Object.keys(attraction)[0] === "Biking" && <FaDog />}
-              {Object.keys(attraction)[0] === "Restaurants" && <FaDog />}
-              {Object.keys(attraction)[0] === "Fishing" && <FaDog />}
-              {Object.keys(attraction)[0] === "Beach" && <FaDog />}
-              {Object.keys(attraction)[0] === "Shopping" && <FaDog />}
-              {Object.keys(attraction)[0] === "Golfing" && <FaDog />}
-              {Object.keys(attraction)[0] === "Hiking" && <FaDog />}
-              {Object.keys(attraction)[0] === "ProfessionalSports" && <FaDog />}
-              {Object.keys(attraction)[0] === "Museums" && <FaDog />}
-              {Object.keys(attraction)[0] === "Hunting" && <FaDog />}
-              {Object.keys(attraction)[0] === "Watersports" && <FaDog />}
-              {Object.keys(attraction)[0] === "Parks" && <FaDog />}
-              {Object.keys(attraction)[0] === "" && <FaDog />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Biking" && <FaBiking />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Restaurants" && (
+                  <MdOutlineRestaurantMenu />
+                )}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Fishing" && <GiBoatFishing />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Shopping" && (
+                  <AiOutlineShoppingCart />
+                )}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Golfing" && <MdGolfCourse />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Hiking" && <GiHiking />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "ProfessionalSports" && (
+                  <MdSportsScore />
+                )}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Museums" && <MdOutlineMuseum />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Hunting" && <GiHuntingBolas />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Watersports" && <GiWaterPolo />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Parks" && <MdOutlinePark />}
+              {Object.values(attraction)[0] &&
+                Object.keys(attraction)[0] === "Beach" && <FaUmbrellaBeach />}
 
               <span className="ml-2">
                 {Object.values(attraction)[0] && Object.keys(attraction)[0]}
