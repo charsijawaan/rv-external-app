@@ -10,6 +10,7 @@ const Navbar = () => {
 	const onLogout = () => {
 		mutateCamper(null)
 		localStorage.removeItem('accessToken')
+		localStorage.removeItem('refreshToken')
 		router.push('/')
 	}
 
