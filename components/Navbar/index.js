@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import { camperStore, mutateCamper } from '../../store/camperStore'
+import { useRouter } from 'next/router'
 import Button from '../UI/Button'
 
 const Navbar = () => {
+	const router = useRouter()
 	const camper = camperStore.useState((s) => s.camper)
 
 	const onLogout = () => {
 		mutateCamper(null)
 		localStorage.removeItem('accessToken')
+		router.push('/')
 	}
 
 	return (

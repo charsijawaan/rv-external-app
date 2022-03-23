@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { camperStore } from '../../store/camperStore'
+import { camperStore, mutateCamper } from '../../store/camperStore'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import AddCardForm from '../../components/AddCardForm'
-import { getCardsByCamperId } from '../../services/camper'
+import {
+	getCardsByCamperId,
+	reserveSite,
+	deleteCard,
+	updateAdults,
+	updateChildren,
+} from '../../services/camper'
 import { getTenantById } from '../../services/tenant'
-import { reserveSite } from '../../services/camper'
-import { deleteCard } from '../../services/camper'
 import classNames from 'classnames'
 import toast from 'react-hot-toast'
 import Button from './../../components/UI/Button'
@@ -58,6 +62,20 @@ const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 		} else toast.error(res.data.message)
 	}
 
+	const onUpdateAdults = async (adults) => {
+		const res = await updateAdults({ camperId: camper._id, adults: adults })
+		if (res.status === 200) {
+			mutateCamper({ ...camper, adults: adults })
+		}
+	}
+
+	const onUpdateChildren = async (children) => {
+		const res = await updateChildren({ camperId: camper._id, children: children })
+		if (res.status === 200) {
+			mutateCamper({ ...camper, children: children })
+		}
+	}
+
 	return (
 		<>
 			<div className='px-2 py-4 md:px-10 lg:px-14 xl:px-24'>
@@ -92,8 +110,11 @@ const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 						<div>
 							<span>Adults</span>
 							<input
+								onChange={(e) => {
+									onUpdateAdults(e.target.value)
+								}}
 								type='number'
-								defaultValue={0}
+								value={camper?.adults}
 								min={0}
 								className='ml-2 pl-2 w-[70px] border-2 rounded-md outline-none'
 							/>
@@ -101,8 +122,11 @@ const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 						<div className='ml-6'>
 							<span>Children</span>
 							<input
+								onChange={(e) => {
+									onUpdateChildren(e.target.value)
+								}}
 								type='number'
-								defaultValue={0}
+								value={camper?.children}
 								min={0}
 								className='ml-2 pl-2 w-[70px] border-2 rounded-md outline-none'
 							/>

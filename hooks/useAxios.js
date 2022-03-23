@@ -5,6 +5,10 @@ const useAxios = () => {
 		baseURL: process.env.NEXT_PUBLIC_API,
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization:
+				typeof window !== 'undefined'
+					? `Bearer ${localStorage.getItem('accessToken')}`
+					: '',
 		},
 	})
 	return axiosInstance

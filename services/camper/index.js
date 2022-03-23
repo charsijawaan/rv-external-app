@@ -49,3 +49,19 @@ export const cancelReservation = async (data) => {
 		return err.response
 	}
 }
+
+export const updateAdults = async (data) => {
+	try {
+		return await axios.post('/camper/update_adults', data)
+	} catch (err) {
+		return err.response
+	}
+}
+
+export const updateChildren = async (data) => {
+	try {
+		return await axios.post('/camper/update_children', data)
+	} catch (err) {
+		return err.response
+	}
+}
