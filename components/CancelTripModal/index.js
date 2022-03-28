@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../UI/Button";
 
 const CancelTripModal = ({
   setShowModal,
@@ -12,9 +13,9 @@ const CancelTripModal = ({
           {/* Content */}
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
             {/* Header */}
-            <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200 ">
+            <div className="flex items-start justify-between p-2 border-b border-solid rounded-t border-blueGray-200 ">
               <svg
-                className="mx-auto ml-[10em] mt-2 w-14 h-10 text-gray-400 dark:text-gray-200"
+                className=" ml-[11em] mt-2 w-10 h-10 text-gray-400 dark:text-gray-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -30,7 +31,7 @@ const CancelTripModal = ({
 
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
                 data-modal-toggle="popup-modal"
                 onClick={() => setShowModal(false)}
               >
@@ -49,29 +50,28 @@ const CancelTripModal = ({
               </button>
             </div>
             {/* Body */}
-            <div className="relative flex-auto p-4 text-center">
+            <div className="relative flex-auto p-2 text-center">
               <p className="my-5 leading-relaxed text-blueGray-500 text-md ">
                 Are you sure you want to delete this reservation?
               </p>
             </div>
             {/* Footer */}
-            <div className="flex items-center justify-end p-4 border-t border-solid rounded-b border-blueGray-200">
-              <button
+            <div className="flex items-center justify-end p-2 border-t border-solid rounded-b border-blueGray-200">
+              <Button
+                buttonClasses="mr-2"
                 data-modal-toggle="popup-modal"
                 type="button"
-                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-2.5 py-2.5 text-center mr-2"
                 onClick={() => onCancelReservation(reservationId)}
               >
                 Yes, I'm sure
-              </button>
-              <button
+              </Button>
+              <Button
                 data-modal-toggle="popup-modal"
                 type="button"
-                className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-2.5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 onClick={() => setShowModal(false)}
               >
                 No, cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>
