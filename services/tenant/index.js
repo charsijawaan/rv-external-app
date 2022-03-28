@@ -17,3 +17,11 @@ export const getTenantById = async (tenantId) => {
 		return err.response
 	}
 }
+
+export const submitReview = async (data) => {
+	try {
+		return await axios.post('/tenant/review', data)
+	} catch (err) {
+		return err.response
+	}
+}

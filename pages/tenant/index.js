@@ -6,6 +6,7 @@ import MapMarker from '../../components/MapMarker'
 import { camperStore } from '../../store/camperStore'
 import { getTenantById } from './../../services/tenant'
 import Button from '../../components/UI/Button'
+import ReviewCard from '../../components/ReviewCard'
 import { DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -54,7 +55,6 @@ const TenantPage = ({ tenant }) => {
 		setLoading(false)
 	}
 
-	// pagination
 	const [pageNumber, setPageNumber] = useState(0)
 	const sitesPerPage = 10
 	const pagesVisited = pageNumber * sitesPerPage
@@ -331,6 +331,18 @@ const TenantPage = ({ tenant }) => {
 								{Object.values(attraction)[0] && Object.keys(attraction)[0]}
 							</span>
 						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Reviews */}
+			<div className='px-2 py-4 md:px-10 lg:px-14 xl:px-24'>
+				<div className='py-4 text-xl font-bold'>Reviews</div>
+				<div className='grid grid-cols-2'>
+					{tenant?.reviews.map((review) => (
+						<>
+							<ReviewCard key={review._id} review={review} />
+						</>
 					))}
 				</div>
 			</div>
