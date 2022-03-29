@@ -68,6 +68,7 @@ const MyTripsPage = () => {
 		const res = await submitReview(data)
 		if (res.status === 200) {
 			toast.success(res.data.message)
+			refetchTrips()
 			setShowModal(false)
 		} else {
 			toast.error(res.data.message)
@@ -121,14 +122,16 @@ const MyTripsPage = () => {
 							{selectedTab === 'current' && (
 								<>
 									{reservations.current?.map((r) => (
-										<tr>
+										<tr key={r._id}>
 											<td className='py-3 pr-16'>{r.tenantId.name}</td>
 											<td className='py-3 pr-16'>{r.tenantId.address}</td>
 											<td className='py-3 pr-16'>
 												{moment(r.arrivalDate).format('YYYY-MM-DD')} &{' '}
 												{moment(r.departureDate).format('YYYY-MM-DD')}
 											</td>
-											<td className='py-3 pr-16'>-</td>
+											<td className='py-3 pr-16'>
+												$ {Number(r.payments[0].details.amount) / 100}
+											</td>
 										</tr>
 									))}
 								</>
@@ -136,14 +139,16 @@ const MyTripsPage = () => {
 							{selectedTab === 'upcoming' && (
 								<>
 									{reservations.upcoming?.map((r) => (
-										<tr>
+										<tr key={r._id}>
 											<td className='py-3 pr-16'>{r.tenantId.name}</td>
 											<td className='py-3 pr-16'>{r.tenantId.address}</td>
 											<td className='py-3 pr-16'>
 												{moment(r.arrivalDate).format('YYYY-MM-DD')} &{' '}
 												{moment(r.departureDate).format('YYYY-MM-DD')}
 											</td>
-											<td className='py-3 pr-16'>-</td>
+											<td className='py-3 pr-16'>
+												$ {Number(r.payments[0].details.amount) / 100}
+											</td>
 											<td className='py-3 pr-16'>
 												<Button onClick={() => setShowModal(true)}>
 													<MdDelete
@@ -172,16 +177,21 @@ const MyTripsPage = () => {
 							{selectedTab === 'history' && (
 								<>
 									{reservations.history?.map((r) => (
-										<tr>
+										<tr key={r._id}>
 											<td className='py-3 pr-16'>{r.tenantId.name}</td>
 											<td className='py-3 pr-16'>{r.tenantId.address}</td>
 											<td className='py-3 pr-16'>
 												{moment(r.arrivalDate).format('YYYY-MM-DD')} &{' '}
 												{moment(r.departureDate).format('YYYY-MM-DD')}
 											</td>
-											<td className='py-3 pr-16'>-</td>
 											<td className='py-3 pr-16'>
-												<Button onClick={() => setShowModal(true)}>
+												$ {Number(r.payments[0].details.amount) / 100}
+											</td>
+											<td className='py-3 pr-16'>
+												<Button
+													onClick={() => setShowModal(true)}
+													disabled={r.isReviewed}
+												>
 													<MdReviews
 														style={{
 															fontSize: 18,

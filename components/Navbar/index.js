@@ -36,7 +36,7 @@ const Navbar = () => {
 							</Link>
 							<div className='block ml-auto'>
 								{/* Login and Sing up buttons */}
-								<div className='flex space-x-4'>
+								<div className='flex items-center space-x-4'>
 									{!camper ? (
 										<>
 											<Link href='/login'>
@@ -54,15 +54,13 @@ const Navbar = () => {
 									) : (
 										<>
 											<Link href='/profile'>
-												<div>
-													<Button>{camper.firstName}</Button>
+												<div className='cursor-pointer'>
+													{camper.firstName}
 												</div>
 											</Link>
 
 											<Link href='/mytrips'>
-												<div>
-													<Button>My trips</Button>
-												</div>
+												<div className='cursor-pointer'>My trips</div>
 											</Link>
 
 											<Button onClick={onLogout}>Logout</Button>

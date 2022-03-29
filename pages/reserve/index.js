@@ -139,6 +139,7 @@ const ReservePage = ({ tenant, siteId, startDate, endDate }) => {
 					<div>
 						{camperCards?.map((card) => (
 							<div
+								key={card._id}
 								className={classNames(
 									'flex items-center justify-between max-w-xs py-2 cursor-pointer',
 									card?._id === selectedCreditCard?._id
